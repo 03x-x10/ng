@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重ねた要素と横向きテキストの表示</title>
+    <!-- <style>
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .layer1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(255, 0, 0, 0.5); /* 半透明の赤色 */
+            z-index: 1; /* 最下層のレイヤー */
+        }
+
+        .layer2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 255, 0, 0.5); /* 半透明の緑色 */
+            z-index: 2; /* 中間のレイヤー */
+        }
+
+        .layer3 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 255, 0.5); /* 半透明の青色 */
+            z-index: 3; /* 最前面のレイヤー */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rotated-text {
+            transform: rotate(90deg); /* 90度回転 */
+            transform-origin: center center; /* 回転の基準点を文字の中央に設定 */
+            white-space: nowrap; /* テキストを一行に保持 */
+            color: white; /* テキストの色を白に設定 */
+        }
+        .rotated-btn {
+            transform: rotate(90deg); /* 90度回転 */
+            transform-origin: center center; /* 回転の基準点を文字の中央に設定 */
+            white-space: nowrap; /* テキストを一行に保持 */
+            color: white; /* テキストの色を白に設定 */
+        }
+    </style> -->
+    <style>
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .layer1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(255, 0, 0); /* 半透明の赤色 */
+            z-index: 1; /* 最下層のレイヤー */
+        }
+
+        .layer2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 255, 0); /* 半透明の緑色 */
+            z-index: 2; /* 中間のレイヤー */
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .layer3 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 255); /* 半透明の青色 */
+            z-index: 3; /* 最前面のレイヤー */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rotated-text {
+            transform: rotate(90deg); /* 90度回転 */
+            transform-origin: center center; /* 回転の基準点を文字の中央に設定 */
+            white-space: nowrap; /* テキストを一行に保持 */
+            color: white; /* テキストの色を白に設定 */
+        }
+
+        .rotated-button {
+            transform: rotate(90deg); /* 90度回転してボタンを横向きにする */
+            transform-origin: center center; /* 回転の基準点を中央に設定 */
+            white-space: nowrap; /* ボタンのテキストを一行に保持 */
+            padding: 10px 20px;
+            background-color: #fff;
+            border: 1px solid #000;
+            cursor: pointer;
+            margin:10px 0;
+        }
+        .layer1-text {
+            transform: rotate(90deg); /* 文字列を横向きに保持 */
+            color: black; /* 文字の色を黒に設定 */
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <script>
+        const talk_theme = ["話題１","話題２","話題３"]
+        $(document).ready(function(){
+            $("#start_btn").click(function(){
+                $("#layer3").fadeOut("slow");
+            });
+            $("#btn1").click(function(){
+                $("#layer2").fadeOut("slow");
+                $("#talk_theme").append(talk_theme[0]);
+            });
+            $("#btn2").click(function(){
+                $("#layer2").fadeOut("slow");
+                $("#talk_theme").append(talk_theme[1]);
+            });
+            $("#btn3").click(function(){
+                $("#layer2").fadeOut("slow");
+                $("#talk_theme").append(talk_theme[2]);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="layer1">
+            <div class="layer1-text" id="talk_theme"></div>
+        </div>
+        <div class="layer2" id="layer2">
+            <button class="rotated-button" id="btn1">話題１</button>
+            <button class="rotated-button" id="btn2">話題２</button>
+            <button class="rotated-button" id="btn3">話題３</button>
+        </div>
+        <div class="layer3" id="layer3">
+            <div class="rotated-text">
+                <button value="START" id="start_btn">START</button>
+            </div>
+            <div class="rotated-text">NGワードゲーム</div>
+        </div>
+    </div>
+</body>
+</html>
