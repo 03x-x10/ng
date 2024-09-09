@@ -3,63 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NGwordGame</title>
-    <!-- <style>
-        .container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-        }
-
-        .layer1 {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(255, 0, 0, 0.5); /* 半透明の赤色 */
-            z-index: 1; /* 最下層のレイヤー */
-        }
-
-        .layer2 {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(0, 255, 0, 0.5); /* 半透明の緑色 */
-            z-index: 2; /* 中間のレイヤー */
-        }
-
-        .layer3 {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(0, 0, 255, 0.5); /* 半透明の青色 */
-            z-index: 3; /* 最前面のレイヤー */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .rotated-text {
-            transform: rotate(90deg); /* 90度回転 */
-            transform-origin: center center; /* 回転の基準点を文字の中央に設定 */
-            white-space: nowrap; /* テキストを一行に保持 */
-            color: white; /* テキストの色を白に設定 */
-        }
-        .rotated-btn {
-            transform: rotate(90deg); /* 90度回転 */
-            transform-origin: center center; /* 回転の基準点を文字の中央に設定 */
-            white-space: nowrap; /* テキストを一行に保持 */
-            color: white; /* テキストの色を白に設定 */
-        }
-    </style> -->
+    <title>レイヤーに横向きの文字列とボタンを追加</title>
     <style>
         .container {
             position: relative;
@@ -67,106 +11,110 @@
             height: 100vh;
         }
 
-        .layer1 {
+        .layer {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 100vh;
-            background-color: rgba(255, 0, 0); /* 半透明の赤色 */
-            z-index: 1; /* 最下層のレイヤー */
-        }
-
-        .layer2 {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(0, 255, 0); /* 半透明の緑色 */
-            z-index: 2; /* 中間のレイヤー */
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .layer3 {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(0, 0, 255); /* 半透明の青色 */
-            z-index: 3; /* 最前面のレイヤー */
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .rotated-text {
-            transform: rotate(90deg); /* 90度回転 */
-            transform-origin: center center; /* 回転の基準点を文字の中央に設定 */
-            white-space: nowrap; /* テキストを一行に保持 */
-            color: white; /* テキストの色を白に設定 */
+        .layer1 {
+            background-color: rgba(255, 0, 0); /* 半透明の赤色 */
+            z-index: 3; /* 最下層のレイヤー */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around; /* テキストとボタンを上下に配置 */
         }
 
-        .rotated-button {
+        .layer2 {
+            background-color: rgba(0, 255, 0); /* 半透明の緑色 */
+            z-index: 4; /* 中間のレイヤー */
+            display: flex;
+            flex-direction: row; /* ボタンを横に並べる */
+            justify-content: space-around; /* ボタン同士の間に適度なスペースを持たせる */
+        }
+
+        .layer3 {
+            background-color: rgba(0, 0, 255); /* 半透明の青色 */
+            z-index: 5; /* 最前面のレイヤー */
+        }
+
+        .layer4 {
+            background-color: rgba(255, 255, 0); /* 半透明の黄色 */
+            z-index: 1; /* 追加したレイヤー */
+        }
+
+        .layer5 {
+            background-color: rgba(0, 255, 255); /* 半透明のシアン色 */
+            z-index: 1; /* 追加したレイヤー */
+        }
+
+        .rotated-text, .layer1-text {
+            transform: rotate(90deg); /* 90度回転して横向きにする */
+            transform-origin: center center; /* 回転の基準点を中央に設定 */
+            white-space: nowrap; /* テキストを一行に保持 */
+            color: white; /* テキストの色を白に設定 */
+            text-align: center;
+        }
+
+        .layer1-button, .rotated-button {
             transform: rotate(90deg); /* 90度回転してボタンを横向きにする */
             transform-origin: center center; /* 回転の基準点を中央に設定 */
-            white-space: nowrap; /* ボタンのテキストを一行に保持 */
             padding: 10px 20px;
             background-color: #fff;
             border: 1px solid #000;
             cursor: pointer;
-            margin:10px 0;
-        }
-        .layer1-text {
-            transform: rotate(90deg); /* 文字列を横向きに保持 */
-            color: black; /* 文字の色を黒に設定 */
         }
     </style>
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
-    <script>
-        const talk_theme = ["話題１","話題２","話題３"]
-        $(document).ready(function(){
-            $("#start_btn").click(function(){
-                $("#layer3").fadeOut("slow");
+        <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+        <script>
+            const talk_theme = ["話題１","話題２","話題３"]
+            $(document).ready(function(){
+                $("#start_btn").click(function(){
+                    $("#layer3").fadeOut("slow");
+                });
+                $("#btn1").click(function(){
+                    $("#layer2").fadeOut("slow");
+                    $("#talk_theme").append(talk_theme[0]);
+                });
+                $("#btn2").click(function(){
+                    $("#layer2").fadeOut("slow");
+                    $("#talk_theme").append(talk_theme[1]);
+                });
+                $("#btn3").click(function(){
+                    $("#layer2").fadeOut("slow");
+                    $("#talk_theme").append(talk_theme[2]);
+                });
             });
-            $("#btn1").click(function(){
-                $("#layer2").fadeOut("slow");
-                $("#talk_theme").append(talk_theme[0]);
-            });
-            $("#btn2").click(function(){
-                $("#layer2").fadeOut("slow");
-                $("#talk_theme").append(talk_theme[1]);
-            });
-            $("#btn3").click(function(){
-                $("#layer2").fadeOut("slow");
-                $("#talk_theme").append(talk_theme[2]);
-            });
-        });
-    </script>
+        </script>
 </head>
-
 <body>
     <div class="container">
-        <div class="layer1">
-            <div class="layer1-text" id="talk_theme"></div>
+        <div class="layer layer1" id="layer1">
+            <div class="layer1-text"id="talk_theme"></div>
+            <button class="layer1-button">レイヤー1のボタン</button>
         </div>
-        <div class="layer2" id="layer2">
+        <div class="layer layer2" id="layer2">
             <button class="rotated-button" id="btn1">話題１</button>
             <button class="rotated-button" id="btn2">話題２</button>
             <button class="rotated-button" id="btn3">話題３</button>
         </div>
-        <div class="layer3" id="layer3">
+        <div class="layer layer3" id="layer3">
             <div class="rotated-text">
-                <button value="START" id="start_btn">START</button>
+                <input type="button" value="START" id="start_btn">
             </div>
             <div class="rotated-text">NGワードゲーム</div>
+        </div>
+        <div class="layer layer4">
+            <div class="rotated-text">レイヤー4のテキスト</div>
+        </div>
+        <div class="layer layer5">
+            <div class="rotated-text">レイヤー5のテキスト</div>
         </div>
     </div>
 </body>
