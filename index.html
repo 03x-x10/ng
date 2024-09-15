@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>レイヤーに横向きの文字列とボタンを追加</title>
+    <title>NG WORD GAME</title>
     <style>
         .container {
             position: relative;
@@ -23,7 +23,7 @@
         }
 
         .layer1 {
-            background-color: rgba(255, 0, 0); /* 半透明の赤色 */
+            background-color: rgb(240, 50, 161);/* 半透明の赤色 */
             z-index: 3; /* 最下層のレイヤー */
             display: flex;
             flex-direction: column;
@@ -32,7 +32,7 @@
         }
 
         .layer2 {
-            background-color: rgba(0, 255, 0); /* 半透明の緑色 */
+            background-color: rgb(240, 50, 161); /* 半透明の緑色 */
             z-index: 4; /* 中間のレイヤー */
             display: flex;
             flex-direction: row; /* ボタンを横に並べる */
@@ -40,17 +40,17 @@
         }
 
         .layer3 {
-            background-color: rgba(0, 0, 255); /* 半透明の青色 */
+            background-color: rgb(240, 50, 161);/* 半透明の青色 */
             z-index: 5; /* 最前面のレイヤー */
         }
 
         .layer4 {
-            background-color: rgba(255, 255, 0); /* 半透明の黄色 */
-            z-index: 1; /* 追加したレイヤー */
+            background-color: rgba(0, 0, 0); /* 半透明の黄色 */
+            z-index: 2; /* 追加したレイヤー */
         }
 
         .layer5 {
-            background-color: rgba(0, 255, 255); /* 半透明のシアン色 */
+            background-color: rgb(240, 50, 161);/* 半透明のシアン色 */
             z-index: 1; /* 追加したレイヤー */
         }
 
@@ -70,10 +70,32 @@
             border: 1px solid #000;
             cursor: pointer;
         }
+        .bigText{
+            font-size: 5em;
+        }
+        .fixed1{
+            position: fixed;
+            left: 10%;
+            z-index: 1000;
+        }
+        .button1 {
+            display       : inline-block;
+            border-radius : 5%;          /* 角丸       */
+            font-size     : 14pt;        /* 文字サイズ */
+            text-align    : center;      /* 文字位置   */
+            cursor        : pointer;     /* カーソル   */
+            padding       : 12px 12px;   /* 余白       */
+            background    : #ebe97f;     /* 背景色     */
+            color         : #69606d;     /* 文字色     */
+            line-height   : 1em;         /* 1行の高さ  */
+            transition    : .3s;         /* なめらか変化 */
+            box-shadow    : 6px 6px 3px #69606d;  /* 影の設定 */
+        }
     </style>
         <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
         <script>
-            const talk_theme = ["話題１","話題２","話題３"]
+            const talk_theme = ["今年の学生会について","恋愛の縁について","友達の縁について"]
+            const talk_theme_num = [0,1,2]
             $(document).ready(function(){
                 $("#start_btn").click(function(){
                     $("#layer3").fadeOut("slow");
@@ -81,40 +103,90 @@
                 $("#btn1").click(function(){
                     $("#layer2").fadeOut("slow");
                     $("#talk_theme").append(talk_theme[0]);
+                    $('#btn4').attr('id','btn1_1');
                 });
                 $("#btn2").click(function(){
                     $("#layer2").fadeOut("slow");
                     $("#talk_theme").append(talk_theme[1]);
+                    $('#btn4').attr('id','btn2_1');
                 });
                 $("#btn3").click(function(){
                     $("#layer2").fadeOut("slow");
                     $("#talk_theme").append(talk_theme[2]);
+                    $('#btn4').attr('id','btn3_1');
                 });
+
             });
+        </script>
+        <script>
+            var talk_num = 0;
+            const word = [['夏休み','花火','鬼','水風船','つちや','御本部orご霊地','お広前','寝不足','確かに','水鉄砲','電車'],['出会い','告白','初恋' ,'タイプ','難しい','カフェ','遊園地','マッチングアプリ'],['喧嘩','仲直り','インスタグラム','出会い','ドライブ','飲み','居酒屋','授業','教室','一緒/同じ','わかる']];
+            var already = [];
+            function random(talk_theme_number){
+                talk_num = talk_theme_number;
+                ran_num = Math.floor(Math.random() * word[talk_theme_number].length);
+                ngWord = word[talk_theme_number][ran_num];
+                already.push(ngWord);
+                $("#talk_theme1").append(ngWord);
+
+                const element = document.getElementById("layer4");
+
+                // 3秒待ってから要素を隠す
+                setTimeout(() => {
+                    element.style.display = "none";  // 要素を隠す
+                }, 5000);
+            }
+            function fadeOut_layer1(){
+                $("#layer1").fadeOut("slow");
+                const b1_1 = document.getElementById('btn1_1');
+                const b2_1 = document.getElementById('btn2_1');
+                const b3_1 = document.getElementById('btn3_1');
+                if(b1_1 != null){
+                    random(0);
+                }else if(b2_1 != null){
+                    random(1);
+                }else if(b3_1 != null){
+                    random(2);
+                }
+            }
+            function change_word(){
+                do{
+                    ran_num = Math.floor(Math.random() * word[talk_num].length);
+                    ngWord = word[talk_num][ran_num];
+                }while(already.includes(ngWord) && word[talk_num].length > already.length);
+                if(word[talk_num].length == already.length) {
+                    already = [];
+                }
+                already.push(ngWord);
+                wordElement = document.getElementById('talk_theme1'); 
+                wordElement.textContent = ngWord;
+            }
+
         </script>
 </head>
 <body>
     <div class="container">
         <div class="layer layer1" id="layer1">
-            <div class="layer1-text"id="talk_theme"></div>
-            <button class="layer1-button">レイヤー1のボタン</button>
+            <div class="layer1-text" id="talk_theme"></div>
+            <input type="button" class="layer1-button button1" id="btn4" onclick="fadeOut_layer1()" value="START">
         </div>
         <div class="layer layer2" id="layer2">
-            <button class="rotated-button" id="btn1">話題１</button>
-            <button class="rotated-button" id="btn2">話題２</button>
-            <button class="rotated-button" id="btn3">話題３</button>
+            <button class="rotated-button button1" id="btn3">話題３</button>
+            <button class="rotated-button button1" id="btn2">話題２</button>
+            <button class="rotated-button button1" id="btn1">話題１</button>
         </div>
         <div class="layer layer3" id="layer3">
             <div class="rotated-text">
-                <input type="button" value="START" id="start_btn">
+                <input type="button" value="START" id="start_btn" class="button1">
             </div>
             <div class="rotated-text">NGワードゲーム</div>
         </div>
-        <div class="layer layer4">
-            <div class="rotated-text">レイヤー4のテキスト</div>
+        <div class="layer layer5" id="layer5">
+            <button class="layer1-button fixed1 button1" onclick="change_word()" style="margin-right: -6em;">CHANGE</button>
+            <div class="rotated-text bigText" id="talk_theme1"></div>
         </div>
-        <div class="layer layer5">
-            <div class="rotated-text">レイヤー5のテキスト</div>
+        <div class="layer layer4" id="layer4">
+            <div class="rotated-text"></div>
         </div>
     </div>
 </body>
